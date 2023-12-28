@@ -33,7 +33,7 @@ public class AuthController {
     public String getToken() {
         log.info("inside auth login");
         return Jwts.builder()
-                .claim("id", "ankitha")
+                .claim("id", "naruto")
                 .claim("role", "admin")
                 .setSubject("Test Token")
                 .setIssuedAt(Date.from(Instant.now()))

@@ -1,0 +1,159 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2023-12-28T04:45:00.331Z",
+  "__export_source": "insomnia.desktop.app:v8.5.1",
+  "resources": [
+    {
+      "_id": "req_d729df14e8df493fbe1c9cd9c91ed65b",
+      "parentId": "wrk_b4f188fe625547d3a7b964cd66fea6dc",
+      "modified": 1703738489354,
+      "created": 1703738441930,
+      "url": "http://192.168.90.122:8090/login",
+      "name": "New User",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"userName\" : \"Sukuna\",\n\t\"role\": \"USER\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/8.5.1"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1703738441930,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_b4f188fe625547d3a7b964cd66fea6dc",
+      "parentId": null,
+      "modified": 1703738204897,
+      "created": 1703738204897,
+      "name": "My Collection",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_bcd2026017184488a00ea0b0afa8b3eb",
+      "parentId": "wrk_b4f188fe625547d3a7b964cd66fea6dc",
+      "modified": 1703738424886,
+      "created": 1703738406954,
+      "url": "http://192.168.90.122:8090/login",
+      "name": "Login",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/8.5.1"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1703738406954,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8401acf2e7e04f6694fc459999097727",
+      "parentId": "wrk_b4f188fe625547d3a7b964cd66fea6dc",
+      "modified": 1703738663903,
+      "created": 1703738344189,
+      "url": "http://192.168.90.122:8090/second",
+      "name": "Second Service",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/8.5.1"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1703738344189,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_266795c431ca4a038011017d191de548",
+      "parentId": "wrk_b4f188fe625547d3a7b964cd66fea6dc",
+      "modified": 1703738341453,
+      "created": 1703738208574,
+      "url": "http://192.168.90.122:8090/first",
+      "name": "First Service",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/8.5.1"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1703738208574,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_bf2dd8f32275dd3ec6b0f02ccd40284d43ee3b35",
+      "parentId": "wrk_b4f188fe625547d3a7b964cd66fea6dc",
+      "modified": 1703738204898,
+      "created": 1703738204898,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1703738204898,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_bf2dd8f32275dd3ec6b0f02ccd40284d43ee3b35",
+      "parentId": "wrk_b4f188fe625547d3a7b964cd66fea6dc",
+      "modified": 1703738204899,
+      "created": 1703738204899,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    }
+  ]
+}

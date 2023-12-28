@@ -30,4 +30,8 @@ public class JWTUtil {
     private boolean isTokenExpired(String token) {
         return this.getALlClaims(token).getExpiration().before(new Date());
     }
+
+    public boolean isInvalid(String token) {
+        return this.isTokenExpired(token);
+    }
 }

@@ -7,6 +7,7 @@ import com.hendisantika.gatewayserver.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,5 +55,11 @@ public class TypeController {
             }
         });
         return "done";
+    }
+
+    private HttpHeaders setAuthHeader(String userName, String role) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + authUtil.getToken(userName, role));
+        return headers;
     }
 }

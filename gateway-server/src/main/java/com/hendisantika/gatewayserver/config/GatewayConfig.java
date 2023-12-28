@@ -1,10 +1,11 @@
 package com.hendisantika.gatewayserver.config;
 
 import com.hendisantika.gatewayserver.filter.AuthFilter;
+import com.hendisantika.gatewayserver.filter.PostGlobalFilter;
+import com.hendisantika.gatewayserver.filter.RequestFilter;
 import com.hendisantika.gatewayserver.model.Company;
 import com.hendisantika.gatewayserver.model.Student;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.filters.RequestFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;

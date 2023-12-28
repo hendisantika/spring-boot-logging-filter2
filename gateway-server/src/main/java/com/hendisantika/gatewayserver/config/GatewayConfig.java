@@ -5,6 +5,7 @@ import org.apache.catalina.filters.RequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.WebFilter;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,4 +30,8 @@ public class GatewayConfig {
         return new RestTemplate();
     }
 
+    @Bean
+    public WebFilter responseFilter() {
+        return new PostGlobalFilter();
+    }
 }

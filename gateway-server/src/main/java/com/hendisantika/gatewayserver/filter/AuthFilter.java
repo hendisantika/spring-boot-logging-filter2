@@ -3,6 +3,7 @@ package com.hendisantika.gatewayserver.filter;
 import com.hendisantika.gatewayserver.util.AuthUtil;
 import com.hendisantika.gatewayserver.util.JWTUtil;
 import com.hendisantika.gatewayserver.validator.RouteValidator;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +53,7 @@ public class AuthFilter implements GatewayFilter {
 
         if (routeValidator.isSecured.test(request)) {
             log.info("validating authentication token");
-            if (this.isCredsMissing(request)) {
+            if (this.isCredentialsMissing(request)) {
                 log.info("in error");
                 return this.onError(exchange, "Credentials missing", HttpStatus.UNAUTHORIZED);
             }
@@ -85,5 +86,14 @@ public class AuthFilter implements GatewayFilter {
 
     private boolean isCredentialsMissing(ServerHttpRequest request) {
         return !(request.getHeaders().containsKey("userName") && request.getHeaders().containsKey("role")) && !request.getHeaders().containsKey("Authorization");
+    }
+
+    private void populateRequestWithHeaders(ServerWebExchange exchange, String token) {
+        Claims claims = jwtUtil.getALlClaims(token);
+        exchange.getRequest()
+                .mutate()
+                .header("id", String.valueOf(claims.get("id")))
+                .header("role", String.valueOf(claims.get("role")))
+                .build();
     }
 }

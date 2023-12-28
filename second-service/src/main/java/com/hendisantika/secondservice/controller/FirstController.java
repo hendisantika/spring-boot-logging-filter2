@@ -2,9 +2,7 @@ package com.hendisantika.secondservice.controller;
 
 import com.hendisantika.secondservice.model.Company;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,5 +32,11 @@ public class FirstController {
                 new Company(2, "Microsoft", "company"),
                 new Company(2, "Alphabet", "company")
         );
+    }
+
+    @PostMapping
+    public Boolean createCompany(@RequestBody Company company) {
+        log.info("creating Company: " + company);
+        return true;
     }
 }

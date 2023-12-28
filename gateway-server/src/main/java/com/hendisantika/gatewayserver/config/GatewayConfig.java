@@ -2,7 +2,9 @@ package com.hendisantika.gatewayserver.config;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.filters.RequestFilter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,4 +23,10 @@ public class GatewayConfig {
     private final RequestFilter requestFilter;
 
     private final AuthFilter authFilter;
+
+    @Bean
+    public RestTemplate getRestTemplate() {
+        return new RestTemplate();
+    }
+
 }

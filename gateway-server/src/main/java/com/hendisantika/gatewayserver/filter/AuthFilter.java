@@ -78,4 +78,9 @@ public class AuthFilter implements GatewayFilter {
         response.setStatusCode(httpStatus);
         return response.setComplete();
     }
+
+    private String getAuthHeader(ServerHttpRequest request) {
+        return request.getHeaders().getOrEmpty("Authorization").get(0);
+    }
+
 }

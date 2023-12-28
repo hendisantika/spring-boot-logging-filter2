@@ -2,9 +2,7 @@ package com.hendisantika.firstservice.controller;
 
 import com.hendisantika.firstservice.model.Student;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,5 +28,11 @@ public class FirstController {
                 new Student(1, "Itadori Yuuji", "Student"),
                 new Student(2, "Megumi Zenin", "Student"),
                 new Student(2, "Yuki Okkutsu", "Student"));
+    }
+
+    @PostMapping
+    public Boolean createStudent(@RequestBody Student student) {
+        log.info("Creating Student: " + student);
+        return true;
     }
 }

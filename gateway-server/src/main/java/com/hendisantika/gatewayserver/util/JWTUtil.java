@@ -1,5 +1,7 @@
 package com.hendisantika.gatewayserver.util;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,4 +20,8 @@ public class JWTUtil {
 
     @Value("${jwt.secret}")
     private String secret;
+
+    public Claims getALlClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();
+    }
 }

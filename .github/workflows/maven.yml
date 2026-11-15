@@ -82,3 +82,5 @@ jobs:
         with:
           directory: ${{ matrix.service }}
           correlator: ${{ github.job }}-${{ matrix.service }}
+          # The action resolves mvnw relative to the directory twice; use runner Maven instead
+          ignore-maven-wrapper: true

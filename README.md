@@ -1,5 +1,79 @@
 # spring-boot-logging-filter2
+
+[![Java CI with Maven](https://github.com/hendisantika/spring-boot-logging-filter2/actions/workflows/maven.yml/badge.svg)](https://github.com/hendisantika/spring-boot-logging-filter2/actions/workflows/maven.yml)
+![Java](https://img.shields.io/badge/Java-25-orange?logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.2-6DB33F?logo=springboot)
+![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2025.1.4-6DB33F?logo=spring)
+
 Logging Request and Response Body In Spring Boot using Filter
+
+## Tech Stack
+
+| Component            | Version                                             |
+|----------------------|-----------------------------------------------------|
+| Java (JDK)           | **25** (Temurin)                                    |
+| Spring Boot          | 4.1.2                                               |
+| Spring Cloud         | 2025.1.4 (Gateway Server WebFlux, Netflix Eureka)   |
+| JJWT                 | 0.13.0                                              |
+| Build tool           | Maven 3.9+ (Maven Wrapper included in each service) |
+
+## Services
+
+| Service                 | Port | Description                                              |
+|-------------------------|------|----------------------------------------------------------|
+| `eureka-server`         | 8761 | Service registry (Netflix Eureka)                        |
+| `authentication-server` | 8088 | Issues JWT tokens (`/login`)                             |
+| `first-service`         | 8081 | Sample microservice — students (`/first`)                |
+| `second-service`        | 8082 | Sample microservice — companies (`/second`)              |
+| `gateway-server`        | 8090 | Spring Cloud Gateway — routing, logging & auth filters   |
+
+## Getting Started
+
+### Prerequisites
+
+- JDK 25 (e.g. `sdk install java 25-tem`)
+- Maven 3.9+ (or use the bundled `./mvnw`)
+
+### Build & Test
+
+```shell
+for svc in authentication-server eureka-server first-service second-service gateway-server; do
+  mvn -B package --file ./$svc/pom.xml
+done
+```
+
+### Run
+
+Start the services in this order (each in its own terminal):
+
+```shell
+cd eureka-server && ./mvnw spring-boot:run
+cd authentication-server && ./mvnw spring-boot:run
+cd first-service && ./mvnw spring-boot:run
+cd second-service && ./mvnw spring-boot:run
+cd gateway-server && ./mvnw spring-boot:run
+```
+
+Then call the services through the gateway:
+
+```shell
+curl http://localhost:8090/first
+curl http://localhost:8090/second
+curl http://localhost:8090/login
+```
+
+Authentication in the gateway is disabled by default — set `authentication.enabled: true` in
+`gateway-server/src/main/resources/application.yml` to enable JWT validation.
+
+## CI/CD & Dependency Updates
+
+- **GitHub Actions** (`.github/workflows/maven.yml`): builds and tests every service in parallel (matrix) on
+  **JDK 25 Temurin** for each push / pull request to `main`, and submits the Maven dependency graph on push to `main`.
+- **Dependabot** (`.github/dependabot.yml`): daily (05:00 Asia/Jakarta) updates for all Maven services and GitHub
+  Actions, with grouped PRs (Spring Boot, Spring Cloud, JJWT, Maven plugins, GitHub Actions), labels and
+  conventional commit prefixes (`chore(deps)`, `ci(deps)`).
+
+## About
 
 Spring Boot API gateway
 
@@ -12,7 +86,6 @@ Gateway. Additionally, we can have other features which include:
 1. Security — Authentication, authorization
 2. Routing — routing, request/response manipulation, circuit breaker
 3. Observability — metric aggregation, logging, tracing
-4.
 
 Architectural benefits of API Gateway:
 

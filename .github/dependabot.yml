@@ -1,46 +1,64 @@
 version: 2
+
 updates:
+  # Maven — all microservices in a single entry
   - package-ecosystem: maven
-    directory: "/authentication-server"
+    directories:
+      - "/authentication-server"
+      - "/eureka-server"
+      - "/first-service"
+      - "/second-service"
+      - "/gateway-server"
     schedule:
       interval: daily
-      time: '05:00'
+      time: "05:00"
       timezone: Asia/Jakarta
     open-pull-requests-limit: 10
+    target-branch: main
+    labels:
+      - dependencies
+      - java
+    assignees:
+      - hendisantika
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+      include: scope
+    groups:
+      spring-boot:
+        patterns:
+          - "org.springframework.boot:*"
+      spring-cloud:
+        patterns:
+          - "org.springframework.cloud:*"
+      jjwt:
+        patterns:
+          - "io.jsonwebtoken:*"
+      maven-plugins:
+        patterns:
+          - "org.apache.maven*"
+          - "*maven-plugin"
+    ignore:
+      # Stay on Spring Boot / Spring Cloud release trains that match the current major line
+      - dependency-name: "org.springframework.boot:spring-boot-starter-parent"
+        update-types: [ "version-update:semver-major" ]
 
- - package-ecosystem: maven
-    directory: "/eureka-server"
+  # GitHub Actions used by the workflows
+  - package-ecosystem: github-actions
+    directory: "/"
     schedule:
       interval: daily
-      time: '05:00'
+      time: "05:00"
       timezone: Asia/Jakarta
     open-pull-requests-limit: 10
- 
- - package-ecosystem: maven
-    directory: "/first-service"
-    schedule:
-      interval: daily
-      time: '05:00'
-      timezone: Asia/Jakarta
-    open-pull-requests-limit: 10
-
-- package-ecosystem: maven
-    directory: "/second-service"
-    schedule:
-      interval: daily
-      time: '05:00'
-      timezone: Asia/Jakarta
-    open-pull-requests-limit: 10
-
-- package-ecosystem: maven
-    directory: "/gateway-server"
-    schedule:
-      interval: daily
-      time: '05:00'
-      timezone: Asia/Jakarta
-    open-pull-requests-limit: 10
-    
-- package-ecosystem: "github-actions"
-  directory: "/"
-  schedule:
-    interval: "daily"
+    labels:
+      - dependencies
+      - github_actions
+    assignees:
+      - hendisantika
+    commit-message:
+      prefix: "ci(deps)"
+    groups:
+      github-actions:
+        patterns:
+          - "*"

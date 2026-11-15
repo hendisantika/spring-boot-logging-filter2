@@ -3,23 +3,25 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      routes:
-        - id: first
-          predicates:
-            - Path=/first/
-          uri: localhost:8081
-        - id: second
-          predicates:
-            - Path=/second/
-          uri: localhost:8082
-        - id: internal
-          predicates:
-            - Path=/process/
-          uri: localhost:8090
-        - id: auth-server
-          predicates:
-            - Path=/login/
-          uri: localhost:8088
+      server:
+        webflux:
+          routes:
+            - id: first
+              predicates:
+                - Path=/first/
+              uri: http://localhost:8081
+            - id: second
+              predicates:
+                - Path=/second/
+              uri: http://localhost:8082
+            - id: internal
+              predicates:
+                - Path=/process/
+              uri: http://localhost:8090
+            - id: auth-server
+              predicates:
+                - Path=/login/
+              uri: http://localhost:8088
 
 
   main:

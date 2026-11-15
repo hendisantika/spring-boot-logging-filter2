@@ -57,7 +57,7 @@ public class AuthFilter implements GatewayFilter {
                 log.info("in error");
                 return this.onError(exchange, "Credentials missing", HttpStatus.UNAUTHORIZED);
             }
-            if (request.getHeaders().containsKey("userName") && request.getHeaders().containsKey("role")) {
+            if (request.getHeaders().containsHeader("userName") && request.getHeaders().containsHeader("role")) {
                 token = authUtil.getToken(request.getHeaders().get("userName").toString(), request.getHeaders().get("role").toString());
             } else {
                 token = request.getHeaders().get("Authorization").toString().split(" ")[1];
@@ -85,7 +85,7 @@ public class AuthFilter implements GatewayFilter {
     }
 
     private boolean isCredentialsMissing(ServerHttpRequest request) {
-        return !(request.getHeaders().containsKey("userName") && request.getHeaders().containsKey("role")) && !request.getHeaders().containsKey("Authorization");
+        return !(request.getHeaders().containsHeader("userName") && request.getHeaders().containsHeader("role")) && !request.getHeaders().containsHeader("Authorization");
     }
 
     private void populateRequestWithHeaders(ServerWebExchange exchange, String token) {

@@ -2,11 +2,13 @@ package com.hendisantika.authenticationserver.controller;
 
 import com.hendisantika.authenticationserver.model.Credential;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -35,10 +37,10 @@ public class AuthController {
         return Jwts.builder()
                 .claim("id", "naruto")
                 .claim("role", "admin")
-                .setSubject("Test Token")
-                .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(Instant.now().plus(10, ChronoUnit.MINUTES)))
-                .signWith(SignatureAlgorithm.HS256, secret).compact();
+                .subject("Test Token")
+                .issuedAt(Date.from(Instant.now()))
+                .expiration(Date.from(Instant.now().plus(10, ChronoUnit.MINUTES)))
+                .signWith(getSigningKey(), Jwts.SIG.HS256).compact();
     }
 
     @PostMapping
@@ -47,9 +49,13 @@ public class AuthController {
         return Jwts.builder()
                 .claim("id", credential.getUserName())
                 .claim("role", credential.getRole())
-                .setSubject("Test Token")
-                .setIssuedAt(Date.from(Instant.now()))
-                .setExpiration(Date.from(Instant.now().plus(10, ChronoUnit.MINUTES)))
-                .signWith(SignatureAlgorithm.HS256, secret).compact();
+                .subject("Test Token")
+                .issuedAt(Date.from(Instant.now()))
+                .expiration(Date.from(Instant.now().plus(10, ChronoUnit.MINUTES)))
+                .signWith(getSigningKey(), Jwts.SIG.HS256).compact();
+    }
+
+    private SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 }

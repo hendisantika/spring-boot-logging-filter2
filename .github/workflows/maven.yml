@@ -1,10 +1,5 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# This workflow builds every microservice with Maven on JDK 25 and caches dependencies.
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
 
 name: Java CI with Maven
 
@@ -13,36 +8,77 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
-
+    name: Build ${{ matrix.service }}
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - authentication-server
+          - eureka-server
+          - first-service
+          - second-service
+          - gateway-server
+
     steps:
-    - uses: actions/checkout@v7
-    - name: Set up JDK 21
-      uses: actions/setup-java@v6
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: maven
-        
-    - name: Build with Maven for authentication-server
-      run: mvn -B package --file ./authentication-server/pom.xml
+      - uses: actions/checkout@v7
 
-    - name: Build with Maven for eureka-server
-      run: mvn -B package --file ./eureka-server/pom.xml
+      - name: Set up JDK 25
+        uses: actions/setup-java@v6
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: ${{ matrix.service }}/pom.xml
 
-    - name: Build with Maven for first-service
-      run: mvn -B package --file ./first-service/pom.xml
+      - name: Build with Maven for ${{ matrix.service }}
+        run: mvn -B package --file ./${{ matrix.service }}/pom.xml
 
-    - name: Build with Maven for gateway-server
-      run: mvn -B package --file ./gateway-server/pom.xml
+  dependency-graph:
+    name: Dependency graph ${{ matrix.service }}
+    # Only on push to main: Dependabot / fork PRs get a read-only token.
+    if: github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
-    - name: Build with Maven for second-service
-      run: mvn -B package --file ./second-service/pom.xml
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - authentication-server
+          - eureka-server
+          - first-service
+          - second-service
+          - gateway-server
 
-      # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-    - name: Update dependency graph
-      uses: advanced-security/maven-dependency-submission-action@a64327a7329c9939cf675e458452febe1894a70c
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v6
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: ${{ matrix.service }}/pom.xml
+
+      # Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts
+      - name: Update dependency graph
+        uses: advanced-security/maven-dependency-submission-action@a64327a7329c9939cf675e458452febe1894a70c
+        with:
+          directory: ${{ matrix.service }}
+          correlator: ${{ github.job }}-${{ matrix.service }}
